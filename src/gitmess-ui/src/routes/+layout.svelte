@@ -28,9 +28,9 @@
 	<svelte:fragment slot="header">
 		<!-- App Bar -->
 		<AppBar>
-			<svelte:fragment>
+			<a href="/">
 				<strong class="text-xl uppercase">GitMess</strong>
-			</svelte:fragment>
+			</a>
 		</AppBar>
 	</svelte:fragment>
 	<!-- Page Route Content -->
