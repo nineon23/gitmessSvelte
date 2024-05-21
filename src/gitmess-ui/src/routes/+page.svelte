@@ -1,3 +1,16 @@
+<script lang="ts">
+	import type { GitRepository } from '$lib/models/git-repository';
+
+	const repositories: GitRepository[] = [
+		{
+			name: 'my-test-repo'
+		},
+		{
+			name: 'my-other-repo'
+		}
+	];
+</script>
+
 <div class="card p-4">
 	<header>
 		<h3 class="h3">Repos</h3>
@@ -5,12 +18,14 @@
 	<article class="mt-4">
 		<nav class="list-nav">
 			<ul>
-				<li>
-					<a href="/repos/1">
-						<span class="badge bg-primary-500">(icon)</span>
-						<span class="flex-auto">Repo</span>
-					</a>
-				</li>
+				{#each repositories as repository}
+					<li>
+						<a href="/repositories/{repository.name}">
+							<span class="badge">📁</span>
+							<span class="flex-auto">{repository.name}</span>
+						</a>
+					</li>
+				{/each}
 			</ul>
 		</nav>
 	</article>
