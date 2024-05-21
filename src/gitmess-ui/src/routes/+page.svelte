@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GitRepository } from '$lib/models/git-repository';
+	import type { GitRepository } from '$lib/models/git-repository.model';
 
 	const repositories: GitRepository[] = [
 		{
