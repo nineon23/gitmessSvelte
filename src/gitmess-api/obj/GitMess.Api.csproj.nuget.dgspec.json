@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api/GitMess.Api.csproj": {}
+    "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api.csproj": {}
   },
   "projects": {
-    "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api/GitMess.Api.csproj": {
+    "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api/GitMess.Api.csproj",
+        "projectUniqueName": "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api.csproj",
         "projectName": "GitMess.Api",
-        "projectPath": "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api/GitMess.Api.csproj",
+        "projectPath": "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api.csproj",
         "packagesPath": "/home/mborto/.nuget/packages/",
-        "outputPath": "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api/obj/",
+        "outputPath": "/home/mborto/Repos/gitmess/src/gitmess-api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mborto/.nuget/NuGet/NuGet.Config"

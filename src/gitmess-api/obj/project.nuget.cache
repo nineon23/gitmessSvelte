@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eMga4V0qflNT1m+gMU30TffFZOTPakROcoUIPcIWXSO+K260Wgh+CsT3uPKlH1ZUtnBGMUWot+IS6y+84yM8OA==",
+  "dgSpecHash": "sQDk2JX0Xl9Q2jrY3cCyHLja+3PCSIfXT4oGIlMHyntMM64T22vtye3Fuh7jvaMc3DXw6ePDzXAJOxIARpWJIA==",
   "success": true,
-  "projectFilePath": "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api/GitMess.Api.csproj",
+  "projectFilePath": "/home/mborto/Repos/gitmess/src/gitmess-api/GitMess.Api.csproj",
   "expectedPackageFiles": [
     "/home/mborto/.nuget/packages/microsoft.aspnetcore.openapi/8.0.1/microsoft.aspnetcore.openapi.8.0.1.nupkg.sha512",
     "/home/mborto/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
