@@ -20,7 +20,7 @@ app.UseHttpsRedirection();
 string GetPath(string path) =>
     Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Repos", path);
 
-GitItem[] GetItems(string path, string branch)
+GitTree[] GetTree(string path, string branch)
 {
     var output = RunGitCommand($"ls-tree {branch}", path);
     return output
@@ -30,7 +30,7 @@ GitItem[] GetItems(string path, string branch)
         {
             line = Regex.Replace(line, @"\s+", " ");
             var parts = line.Split(' ');
-            return new GitItem(parts[1], parts[3], null, null);
+            return new GitTree(parts[1], parts[3], null, null);
         })
         .OrderByDescending(item => item.Type)
         .ThenBy(item => item.Name)
@@ -67,29 +67,25 @@ group.MapGet("/", () =>
     return Directory.GetDirectories(GetPath(""))
         .Select(dir => new GitRepository(Path.GetFileName(dir)));
 });
-group.MapGet("/{repo}/{branch}", (string repo, string branch = "main") =>
+group.MapGet("/{repo}/tree/{branch}", (string repo, string branch = "main") =>
 {
     var repoPath = GetPath(repo);
-    var items = GetItems(repoPath, branch);
-    return new GitItem("tree", repo, items, null);
+    var items = GetTree(repoPath, branch);
+    return new GetTreeResponse(items, null);
 });
-group.MapGet("/{repo}/{branch}/{path}", (string repo, string branch, string path) =>
+group.MapGet("/{repo}/tree/{branch}/{path}", (string repo, string branch, string path) =>
 {
     path = HttpUtility.UrlDecode(path);
-
     var currentPath = GetPath(Path.Combine(repo, path));
-
     var itemAttributes = File.GetAttributes(GetPath(currentPath));
-    var name = Path.GetFileName(currentPath);
     var isDirectory = itemAttributes.HasFlag(FileAttributes.Directory);
-    var type = isDirectory ? "tree" : "blob";
-
     var content = !isDirectory ? File.ReadAllText(currentPath) : null;
-    var items = isDirectory ? GetItems(currentPath, branch) : null;
-    return new GitItem(type, name, items, content);
+    var items = isDirectory ? GetTree(currentPath, branch) : null;
+    return new GetTreeResponse(items, content);
 });
 
 app.Run();
 
 record GitRepository(string Name);
-record GitItem(string Type, string Name, GitItem[]? Items, string? Content);
+record GetTreeResponse(GitTree[]? Tree, string? Content);
+record GitTree(string Type, string Name, GitTree[]? Items, string? Content);
