@@ -16,7 +16,7 @@
 			{#each items as row}
 				<tr>
 					<td>{row.type === 'directory' ? '📁' : '📄'}</td>
-					<td>{row.name}</td>
+					<td><a href={row.url}>{row.name}</a></td>
 				</tr>
 			{/each}
 		</tbody>

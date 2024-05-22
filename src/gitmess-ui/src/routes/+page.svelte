@@ -20,7 +20,7 @@
 			<ul>
 				{#each repositories as repository}
 					<li>
-						<a href="/repositories/{repository.name}">
+						<a href="/repositories/{repository.name}/main">
 							<span class="badge">📁</span>
 							<span class="flex-auto">{repository.name}</span>
 						</a>
