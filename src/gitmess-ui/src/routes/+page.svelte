@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GitRepository } from '$lib/models/git-repository.model';
+	import type { GitRepository } from '$lib/models/api.model';
 
 	const repositories: GitRepository[] = [
 		{
@@ -20,7 +20,7 @@
 			<ul>
 				{#each repositories as repository}
 					<li>
-						<a href="/repositories/{repository.name}/main">
+						<a href="/repositories/{repository.name}/tree/main">
 							<span class="badge">📁</span>
 							<span class="flex-auto">{repository.name}</span>
 						</a>

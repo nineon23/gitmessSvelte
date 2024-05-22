@@ -1,7 +1,8 @@
 <script lang="ts">
-	import type { GitItem } from '$lib/models/git-item.model';
+	import type { GitTree } from '$lib/models/api.model';
 
-	export let items: GitItem[];
+	export let tree: GitTree[];
+	export let url: string;
 </script>
 
 <div class="table-container">
@@ -13,10 +14,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each items as row}
+			{#each tree as row}
 				<tr>
-					<td>{row.type === 'directory' ? '📁' : '📄'}</td>
-					<td><a href={row.url}>{row.name}</a></td>
+					<td>{row.type === 'tree' ? '📁' : '📄'}</td>
+					<td><a href={`${url}/${row.name}`}>{row.name}</a></td>
 				</tr>
 			{/each}
 		</tbody>

@@ -11,12 +11,17 @@
 	import javascript from 'highlight.js/lib/languages/javascript';
 	import typescript from 'highlight.js/lib/languages/typescript';
 	import markdown from 'highlight.js/lib/languages/markdown';
+	import csharp from 'highlight.js/lib/languages/csharp';
+	import yaml from 'highlight.js/lib/languages/yaml';
 
 	hljs.registerLanguage('xml', xml); // for HTML
 	hljs.registerLanguage('css', css);
 	hljs.registerLanguage('js', javascript);
 	hljs.registerLanguage('ts', typescript);
 	hljs.registerLanguage('md', markdown);
+	hljs.registerLanguage('cs', csharp);
+	hljs.registerLanguage('yml', yaml);
+	hljs.registerLanguage('yaml', yaml);
 	storeHighlightJs.set(hljs);
 
 	// Floating UI for Popups
