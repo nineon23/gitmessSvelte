@@ -1,6 +1,6 @@
 import type { GetTreeResponse, GitRepository } from "./models/api.model";
 
-const API_URL = 'http://localhost:5209';
+const API_URL = 'http://localhost:5001';
 
 export async function getRepositories(): Promise<GitRepository[]> {
 	const response = await fetch(`${API_URL}/repositories`);

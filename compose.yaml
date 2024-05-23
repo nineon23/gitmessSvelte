@@ -1,0 +1,32 @@
+services:
+  git-server:
+    build: ./src/gitmess-gitserver/
+    volumes:
+      - git-repos:/data/git/repositories
+    ports:
+      - "2222:22"
+    networks:
+      - gitnet
+
+  api:
+    build: ./src/gitmess-api
+    volumes:
+      - git-repos:/data/git/repositories
+    ports:
+      - "5001:8080"
+    networks:
+      - gitnet
+
+  frontend:
+    build: ./src/gitmess-ui
+    ports:
+      - "3001:80"
+    networks:
+      - gitnet
+
+volumes:
+  git-repos:
+
+networks:
+  gitnet:
+    driver: bridge

@@ -4,16 +4,21 @@
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import type { GetTreeResponse } from '$lib/models/api.model';
 	import { getRepositoryTree } from '$lib/api';
+	import { onMount } from 'svelte';
 
 	let response: GetTreeResponse | null = null;
 
-	page.subscribe(async () => {
+	const loadTree = async () => {
 		response = await getRepositoryTree(
 			$page.params.repo,
 			$page.params.branch,
 			encodeURIComponent($page.params.files)
 		);
-	});
+	};
+
+	page.subscribe(loadTree);
+
+	onMount(loadTree);
 </script>
 
 <div class="card p-4">

@@ -3,20 +3,22 @@ using System.Text.RegularExpressions;
 using System.Web;
 
 string GetPath(string path) =>
-    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Repos", path);
+    Path.Combine("/data/git/repositories", path);
 
-GitTree[] GetTree(string path, string branch)
+GitTree GetTree(string line)
+{
+    line = Regex.Replace(line, @"\s+", " ");
+    var parts = line.Split(' ');
+    return new GitTree(parts[1], parts[3]);
+}
+
+GitTree[] GetTrees(string path, string branch)
 {
     var output = RunGitCommand($"ls-tree {branch}", path);
     return output
         .Split("\n")
         .Where(line => !string.IsNullOrEmpty(line))
-        .Select(line =>
-        {
-            line = Regex.Replace(line, @"\s+", " ");
-            var parts = line.Split(' ');
-            return new GitTree(parts[1], parts[3]);
-        })
+        .Select(GetTree)
         .OrderByDescending(item => item.Type)
         .ThenBy(item => item.Name)
         .ToArray();
@@ -44,6 +46,7 @@ string RunGitCommand(string arguments, string workingDirectory)
 
     return string.IsNullOrEmpty(error) ? output : error;
 }
+
 const string CorsPolicy = "_allowAny";
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,12 +62,8 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors(CorsPolicy);
 app.UseHttpsRedirection();
@@ -79,12 +78,27 @@ group.MapGet("/", () =>
 group.MapGet("/{repo}/tree/{branch}/{path?}", (string repo, string branch = "main", string? path = null) =>
 {
     path = HttpUtility.UrlDecode(path);
-    var currentPath = !string.IsNullOrWhiteSpace(path) ? GetPath(Path.Combine(repo, path)) : GetPath(repo);
-    var itemAttributes = File.GetAttributes(GetPath(currentPath));
-    var isDirectory = itemAttributes.HasFlag(FileAttributes.Directory);
-    var content = !isDirectory ? File.ReadAllText(currentPath) : null;
-    var items = isDirectory ? GetTree(currentPath, branch) : null;
+
+    var repoPath = GetPath(repo);
+    var isRepo = string.IsNullOrWhiteSpace(path);
+    if (isRepo)
+    {
+        var repoItems = GetTrees(repoPath, branch);
+        return new GetTreeResponse(repoItems, null);
+    }
+
+    var currentPath = GetPath(Path.Combine(repo, path!));
+    var currentLine = RunGitCommand($"ls-tree {branch} {path}", repoPath);
+    var currentTree = GetTree(currentLine);
+
+    var content = currentTree.Type == "blob" ? RunGitCommand($"show {branch}:{path}", repoPath) : null;
+    var items = currentTree.Type == "tree" ? GetTrees(currentPath, branch) : null;
     return new GetTreeResponse(items, content);
+});
+group.MapPost("/{repo}", (string repo) =>
+{
+    Directory.CreateDirectory(GetPath(repo));
+    RunGitCommand("init", GetPath(repo));
 });
 
 app.Run();

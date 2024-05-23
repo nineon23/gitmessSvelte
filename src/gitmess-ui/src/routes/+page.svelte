@@ -1,14 +1,13 @@
 <script lang="ts">
+	import { getRepositories } from '$lib/api';
 	import type { GitRepository } from '$lib/models/api.model';
+	import { onMount } from 'svelte';
 
-	const repositories: GitRepository[] = [
-		{
-			name: 'my-test-repo'
-		},
-		{
-			name: 'my-other-repo'
-		}
-	];
+	let repositories: GitRepository[] = [];
+
+	onMount(async () => {
+		repositories = await getRepositories();
+	});
 </script>
 
 <div class="card p-4">
