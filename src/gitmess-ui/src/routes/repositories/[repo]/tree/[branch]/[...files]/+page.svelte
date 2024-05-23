@@ -5,16 +5,14 @@
 	import type { GetTreeResponse } from '$lib/models/api.model';
 	import { getRepositoryTree } from '$lib/api';
 	import { onMount } from 'svelte';
-	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 
 	let branches = [];
 	let selectedBranch = '';
 
 	const getBranches = async () => {
 		// Replace this with your actual API call or other method of getting branches
-		return ['main', 'develop', 'feature'];
+		return ['insalata', 'main', 'master'];
 	};
 
 	const handleBranchClick = (branch) => {
@@ -24,6 +22,7 @@
 
 	onMount(async () => {
 		branches = await getBranches();
+		await loadTree();
 	});
 	let response: GetTreeResponse | null = null;
 
@@ -37,7 +36,6 @@
 
 	page.subscribe(loadTree);
 
-	onMount(loadTree);
 
 </script>
 
