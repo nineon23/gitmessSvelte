@@ -75,6 +75,24 @@ group.MapGet("/", () =>
     return Directory.GetDirectories(GetPath(""))
         .Select(dir => new GitRepository(Path.GetFileName(dir)));
 });
+
+
+group.MapPost("/{repo}/branches", (string repo) =>
+{
+    var repoPath = GetPath(repo);
+    var output = RunGitCommand("branch", repoPath);
+    return output
+        .Split("\n")
+        .Where(line => !string.IsNullOrEmpty(line))
+        .Select(line => line.TrimStart('*').Trim())
+        .ToArray();
+});
+group.MapPost("/{repo}/branches/{branch}", (string repo, string branch) =>
+{
+    var repoPath = GetPath(repo);
+    RunGitCommand($"checkout -b {branch}", repoPath);
+});
+
 group.MapGet("/{repo}/tree/{branch}/{path?}", (string repo, string branch = "main", string? path = null) =>
 {
     path = HttpUtility.UrlDecode(path);
@@ -106,3 +124,4 @@ app.Run();
 record GitRepository(string Name);
 record GetTreeResponse(GitTree[]? Tree, string? Content);
 record GitTree(string Type, string Name);
+record GitTreeProva(string Type, string Name);
